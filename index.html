@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>☠ YOUR SOFTWARE AWAITS ☠</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💀</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Creepster&family=VT323&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    min-height: 100vh;
+    font-family: 'VT323', monospace;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  .strobe {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    animation: strobeFlash 0.15s infinite;
+  }
+
+  @keyframes strobeFlash {
+    0%   { background: rgba(255,0,0,0.07); }
+    10%  { background: rgba(0,255,0,0.05); }
+    20%  { background: rgba(0,0,255,0.06); }
+    30%  { background: rgba(255,0,255,0.08); }
+    40%  { background: rgba(255,255,0,0.04); }
+    50%  { background: rgba(0,255,255,0.06); }
+    60%  { background: rgba(255,100,0,0.07); }
+    70%  { background: rgba(100,0,255,0.05); }
+    80%  { background: rgba(255,0,100,0.08); }
+    90%  { background: rgba(0,200,255,0.04); }
+    100% { background: rgba(255,0,0,0.07); }
+  }
+
+  .scanlines {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.4) 2px,
+      rgba(0,0,0,0.4) 4px
+    );
+    animation: scanMove 8s linear infinite;
+  }
+
+  @keyframes scanMove {
+    from { background-position: 0 0; }
+    to   { background-position: 0 100px; }
+  }
+
+  .noise {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: noiseAnim 0.1s steps(1) infinite;
+  }
+
+  @keyframes noiseAnim {
+    0%   { transform: translate(0,0); }
+    10%  { transform: translate(-2px,1px); }
+    20%  { transform: translate(2px,-1px); }
+    30%  { transform: translate(-1px,2px); }
+    40%  { transform: translate(1px,-2px); }
+    50%  { transform: translate(-2px,-1px); }
+    60%  { transform: translate(2px,2px); }
+    70%  { transform: translate(0,-2px); }
+    80%  { transform: translate(-1px,0); }
+    90%  { transform: translate(2px,1px); }
+    100% { transform: translate(0,0); }
+  }
+
+  .eye-container {
+    position: fixed;
+    pointer-events: none;
+    z-index: 3;
+    animation: eyeWander 3s ease-in-out infinite alternate;
+  }
+
+  .eye-container:nth-child(1) { top: 5%;  left: 3%; }
+  .eye-container:nth-child(2) { top: 8%;  right: 5%; }
+  .eye-container:nth-child(3) { top: 45%; left: 1%; }
+  .eye-container:nth-child(4) { top: 45%; right: 2%; }
+  .eye-container:nth-child(5) { bottom: 10%; left: 4%; }
+  .eye-container:nth-child(6) { bottom: 8%;  right: 3%; }
+
+  .eye {
+    width: 48px;
+    height: 48px;
+    background: #fff;
+    border-radius: 50%;
+    border: 2px solid #f00;
+    position: relative;
+    animation: eyeBlink 4s ease-in-out infinite;
+    box-shadow: 0 0 18px #f00, 0 0 35px #f00;
+  }
+
+  .pupil {
+    width: 18px;
+    height: 18px;
+    background: #f00;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s;
+  }
+
+  @keyframes eyeBlink {
+    0%, 90%, 100% { transform: scaleY(1); }
+    95%            { transform: scaleY(0.05); }
+  }
+
+  @keyframes eyeWander {
+    0%   { transform: translate(0,0) rotate(-5deg); }
+    100% { transform: translate(5px,10px) rotate(5deg); }
+  }
+
+  .blooddrips {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 5;
+    display: flex;
+  }
+
+  .drip { flex: 1; height: 60px; position: relative; overflow: visible; }
+
+  .drip::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 8px;
+    background: #cc0000;
+    border-radius: 0 0 50% 50%;
+    animation: dripFall linear infinite;
+    box-shadow: 0 0 6px #f00;
+  }
+
+  .drip:nth-child(1)::before  { height:20px; animation-duration:2.1s; left:20%; }
+  .drip:nth-child(2)::before  { height:35px; animation-duration:3.4s; animation-delay:0.5s; left:70%; }
+  .drip:nth-child(3)::before  { height:15px; animation-duration:1.8s; animation-delay:1.0s; left:40%; }
+  .drip:nth-child(4)::before  { height:28px; animation-duration:2.7s; animation-delay:0.2s; left:60%; }
+  .drip:nth-child(5)::before  { height:22px; animation-duration:3.1s; animation-delay:0.8s; left:30%; }
+  .drip:nth-child(6)::before  { height:40px; animation-duration:2.3s; animation-delay:1.4s; left:80%; }
+  .drip:nth-child(7)::before  { height:18px; animation-duration:4.0s; animation-delay:0.3s; left:50%; }
+  .drip:nth-child(8)::before  { height:30px; animation-duration:2.6s; animation-delay:0.9s; left:15%; }
+  .drip:nth-child(9)::before  { height:25px; animation-duration:3.3s; animation-delay:0.1s; left:90%; }
+  .drip:nth-child(10)::before { height:12px; animation-duration:1.9s; animation-delay:0.7s; left:45%; }
+
+  @keyframes dripFall {
+    0%   { transform: translateX(-50%) scaleY(1); opacity:1; }
+    80%  { transform: translateX(-50%) translateY(50px) scaleY(1.5); opacity:0.6; }
+    100% { transform: translateX(-50%) translateY(60px) scaleY(0); opacity:0; }
+  }
+
+  .corners span {
+    position: fixed;
+    font-size: 50px;
+    z-index: 6;
+    animation: cornerPulse 0.4s steps(1) infinite;
+  }
+  .corners span:nth-child(1) { top:10px;    left:10px;  animation-delay:0s; }
+  .corners span:nth-child(2) { top:10px;    right:10px; animation-delay:0.1s; }
+  .corners span:nth-child(3) { bottom:10px; left:10px;  animation-delay:0.2s; }
+  .corners span:nth-child(4) { bottom:10px; right:10px; animation-delay:0.3s; }
+
+  @keyframes cornerPulse {
+    0%  { opacity:1;   transform:scale(1);   filter:drop-shadow(0 0 10px #f00); }
+    50% { opacity:0.4; transform:scale(0.8); filter:drop-shadow(0 0 3px #f00); }
+  }
+
+  .content {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px 60px;
+  }
+
+  .skull {
+    font-size: 80px;
+    animation: skullBob 0.5s ease-in-out infinite alternate, skullColor 0.3s steps(1) infinite;
+    margin-bottom: 10px;
+  }
+
+  @keyframes skullBob {
+    from { transform: translateY(0) rotate(-5deg) scale(1); }
+    to   { transform: translateY(-15px) rotate(5deg) scale(1.1); }
+  }
+
+  @keyframes skullColor {
+    0%  { filter: drop-shadow(0 0 20px #f00); }
+    33% { filter: drop-shadow(0 0 20px #0f0); }
+    66% { filter: drop-shadow(0 0 20px #0ff); }
+  }
+
+  h1 {
+    font-family: 'Creepster', cursive;
+    font-size: clamp(36px, 8vw, 90px);
+    color: #ff0000;
+    text-align: center;
+    animation: titleFlicker 0.2s steps(1) infinite, titleShake 0.1s steps(1) infinite;
+    text-shadow:
+      0 0 10px #f00,
+      0 0 30px #f00,
+      0 0 60px #f00,
+      4px 4px 0 #8b0000,
+      8px 8px 0 #4b0000;
+    margin-bottom: 8px;
+    letter-spacing: 4px;
+  }
+
+  @keyframes titleFlicker {
+    0%  { opacity:1; }
+    5%  { opacity:0.7; }
+    10% { opacity:1; }
+    50% { opacity:0.9; }
+    51% { opacity:0.3; }
+    52% { opacity:1; }
+    80% { opacity:1; }
+    81% { opacity:0.5; }
+    82% { opacity:1; }
+  }
+
+  @keyframes titleShake {
+    0%  { letter-spacing:4px; transform:translateX(0); }
+    25% { letter-spacing:3px; transform:translateX(2px); }
+    50% { letter-spacing:5px; transform:translateX(-1px); }
+    75% { letter-spacing:4px; transform:translateX(1px); }
+  }
+
+  .warning-band {
+    display: flex;
+    gap: 12px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 700px;
+    margin: 10px 0;
+  }
+
+  .warning-band.fwd  { animation: bandFwd  3s linear infinite; }
+  .warning-band.rev  { animation: bandRev  3s linear infinite; }
+
+  @keyframes bandFwd { from { transform:translateX(0);    } to { transform:translateX(-50%); } }
+  @keyframes bandRev { from { transform:translateX(-50%); } to { transform:translateX(0);    } }
+
+  .warning-band span {
+    font-size: 22px;
+    color: #ff0;
+    white-space: nowrap;
+    text-shadow: 0 0 6px #ff0;
+    animation: warnFlash 0.4s steps(1) infinite;
+  }
+
+  @keyframes warnFlash {
+    0%  { color:#ff0; }
+    50% { color:#f80; }
+  }
+
+  .warning-strip {
+    background: repeating-linear-gradient(
+      -45deg,
+      #ff0 0px,#ff0 12px,
+      #000 12px,#000 24px
+    );
+    height: 20px;
+    width: 100%;
+    max-width: 600px;
+    margin: 6px 0;
+    animation: stripScroll 2s linear infinite;
+  }
+
+  @keyframes stripScroll {
+    from { background-position:0 0; }
+    to   { background-position:48px 0; }
+  }
+
+  .card {
+    background: rgba(10,0,0,0.92);
+    border: 3px solid #f00;
+    border-radius: 4px;
+    padding: 30px 40px;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    margin: 16px 0;
+    animation: cardPulse 1s ease-in-out infinite alternate;
+  }
+
+  @keyframes cardPulse {
+    from { box-shadow: 0 0 20px #f00, inset 0 0 30px rgba(255,0,0,0.1); border-color:#f00; }
+    to   { box-shadow: 0 0 60px #f00, 0 0 100px #800, inset 0 0 60px rgba(255,0,0,0.2); border-color:#ff4444; }
+  }
+
+  .card::before {
+    content: '⚠ ENTERING FORBIDDEN TERRITORY ⚠';
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #f00;
+    color: #000;
+    font-family: 'VT323', monospace;
+    font-size: 14px;
+    padding: 2px 12px;
+    white-space: nowrap;
+    animation: labelFlash 0.3s steps(1) infinite;
+  }
+
+  @keyframes labelFlash {
+    0%  { background:#f00; color:#000; }
+    50% { background:#ff0; color:#f00; }
+  }
+
+  .desc {
+    font-size: 24px;
+    color: #ccc;
+    line-height: 1.4;
+    margin: 16px 0 24px;
+    animation: textGlitch 5s steps(1) infinite;
+  }
+
+  @keyframes textGlitch {
+    0%,90%,100% { transform:none; clip-path:none; }
+    92%         { transform:translateX(-3px); clip-path:inset(20% 0 60% 0); }
+    94%         { transform:translateX(3px);  clip-path:inset(60% 0 10% 0); }
+    96%         { transform:none; clip-path:none; }
+  }
+
+  .filename {
+    background: rgba(255,0,0,0.12);
+    border: 1px solid #f00;
+    border-radius: 3px;
+    padding: 8px 16px;
+    font-size: 22px;
+    color: #ff6666;
+    margin-bottom: 24px;
+    word-break: break-all;
+    animation: filenameGlow 0.8s ease-in-out infinite alternate;
+  }
+
+  @keyframes filenameGlow {
+    from { box-shadow:0 0 6px #f00; }
+    to   { box-shadow:0 0 18px #f00; }
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 16px 48px;
+    font-family: 'Creepster', cursive;
+    font-size: 36px;
+    color: #000;
+    background: #f00;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    animation: btnShake 0.1s steps(1) infinite;
+    box-shadow: 0 0 20px #f00, 0 6px 0 #8b0000;
+    letter-spacing: 2px;
+  }
+
+  @keyframes btnShake {
+    0%  { transform:translateX(0)   translateY(0); }
+    25% { transform:translateX(-2px) translateY(1px); }
+    50% { transform:translateX(2px)  translateY(-1px); }
+    75% { transform:translateX(-1px) translateY(2px); }
+  }
+
+  .btn:hover {
+    background: #ff4444;
+    box-shadow: 0 0 60px #f00, 0 0 100px #f00;
+    text-decoration: none;
+    color: #000;
+  }
+
+  .btn:active { transform:scale(0.97) translateY(3px); box-shadow:none; }
+
+  .btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: translateX(-100%);
+    animation: btnShine 2s ease-in-out infinite;
+  }
+
+  @keyframes btnShine {
+    0%,60% { transform:translateX(-100%); }
+    80%    { transform:translateX(100%); }
+    100%   { transform:translateX(100%); }
+  }
+
+  .flash-text {
+    font-family: 'Creepster', cursive;
+    font-size: 28px;
+    text-shadow: 0 0 10px currentColor;
+    margin-top: 12px;
+    animation: flashText 0.25s steps(1) infinite;
+  }
+
+  @keyframes flashText {
+    0%  { color:#ff0; }
+    25% { color:#f0f; }
+    50% { color:#0ff; }
+    75% { color:#0f0; }
+  }
+
+  #status {
+    font-size: 20px;
+    color: #0f0;
+    margin-top: 14px;
+    min-height: 28px;
+    animation: statusGlow 1s ease-in-out infinite alternate;
+  }
+
+  @keyframes statusGlow {
+    from { text-shadow:0 0 4px #0f0; }
+    to   { text-shadow:0 0 16px #0f0; }
+  }
+
+  .counter {
+    font-size: 20px;
+    color: #f66;
+    margin-top: 10px;
+    animation: counterBlink 0.1s steps(1) infinite;
+  }
+
+  @keyframes counterBlink {
+    0%  { color:#f66; }
+    50% { color:#ff0; }
+  }
+
+  .progress-bar-wrap {
+    width: 100%;
+    height: 14px;
+    background: #1a0000;
+    border: 1px solid #f00;
+    border-radius: 2px;
+    margin-top: 18px;
+    overflow: hidden;
+    display: none;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: #f00;
+    width: 0%;
+    transition: width 0.1s;
+    animation: barPulse 0.3s steps(1) infinite;
+  }
+
+  @keyframes barPulse {
+    0%  { background:#f00; }
+    50% { background:#ff0; }
+  }
+
+  #progress-label {
+    font-size: 16px;
+    color: #888;
+    margin-top: 6px;
+    animation: labelBlink 0.5s steps(1) infinite;
+    display: none;
+  }
+
+  @keyframes labelBlink {
+    0%,100% { opacity:1; }
+    50%      { opacity:0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="strobe"></div>
+<div class="scanlines"></div>
+<div class="noise"></div>
+
+<div class="blooddrips">
+  <div class="drip"></div><div class="drip"></div><div class="drip"></div>
+  <div class="drip"></div><div class="drip"></div><div class="drip"></div>
+  <div class="drip"></div><div class="drip"></div><div class="drip"></div>
+  <div class="drip"></div>
+</div>
+
+<div class="corners">
+  <span>💀</span><span>☠️</span><span>☠️</span><span>💀</span>
+</div>
+
+<div class="eye-container"><div class="eye"><div class="pupil"></div></div></div>
+<div class="eye-container"><div class="eye"><div class="pupil"></div></div></div>
+<div class="eye-container"><div class="eye"><div class="pupil"></div></div></div>
+<div class="eye-container"><div class="eye"><div class="pupil"></div></div></div>
+<div class="eye-container"><div class="eye"><div class="pupil"></div></div></div>
+<div class="eye-container"><div class="eye"><div class="pupil"></div></div></div>
+
+<div class="content">
+  <div class="skull">💀</div>
+  <h1>YOUR SOFTWARE<br>AWAITS</h1>
+
+  <div class="warning-band fwd">
+    <span>⚠ DANGER ⚠ DO NOT PROCEED ⚠ TURN BACK ⚠ LAST WARNING ⚠ DANGER ⚠ DO NOT PROCEED ⚠ TURN BACK ⚠ LAST WARNING ⚠ </span>
+    <span>⚠ DANGER ⚠ DO NOT PROCEED ⚠ TURN BACK ⚠ LAST WARNING ⚠ DANGER ⚠ DO NOT PROCEED ⚠ TURN BACK ⚠ LAST WARNING ⚠ </span>
+  </div>
+
+  <div class="warning-strip"></div>
+
+  <div class="card">
+    <p class="desc">
+      You have been chosen.<br>
+      The file has been waiting.<br>
+      It knows your name.
+    </p>
+
+    <!-- =============================================
+         EDIT THIS: change href to your real file URL
+         and update the filename below
+         ============================================= -->
+    <div class="filename">📁 YOUR_SOFTWARE_SETUP.exe</div>
+
+    <a id="downloadBtn"
+       href="https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPO/YOUR_FILE.exe"
+       download="YOUR_SOFTWARE_SETUP.exe"
+       class="btn"
+       onclick="startDownload(event)">
+      ☠ DOWNLOAD ☠
+    </a>
+
+    <div class="flash-text">⚡ FREE. CURSED. YOURS. ⚡</div>
+    <div id="status"></div>
+
+    <div class="progress-bar-wrap" id="progressWrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div id="progress-label">TRANSMITTING YOUR SOUL...</div>
+
+    <div class="counter">👁 <span id="count">0</span> souls have downloaded</div>
+  </div>
+
+  <div class="warning-strip"></div>
+
+  <div class="warning-band rev">
+    <span>☠ NO REFUNDS ☠ NO ESCAPE ☠ NO REFUNDS ☠ NO ESCAPE ☠ NO REFUNDS ☠ NO ESCAPE ☠ </span>
+    <span>☠ NO REFUNDS ☠ NO ESCAPE ☠ NO REFUNDS ☠ NO ESCAPE ☠ NO REFUNDS ☠ NO ESCAPE ☠ </span>
+  </div>
+</div>
+
+<script>
+  /* ---- Fake soul counter ---- */
+  let count = Math.floor(Math.random() * 9000) + 1000;
+  document.getElementById('count').textContent = count.toLocaleString();
+  setInterval(() => {
+    if (Math.random() < 0.3) {
+      count += Math.floor(Math.random() * 3) + 1;
+      document.getElementById('count').textContent = count.toLocaleString();
+    }
+  }, 2000);
+
+  /* ---- Cycling status messages ---- */
+  const msgs = [
+    '> SCANNING YOUR SOUL...',
+    '> TARGET ACQUIRED',
+    '> YOU CANNOT HIDE',
+    '> PREPARING THE RITUAL...',
+    '> FILE MATERIALIZING...',
+    '> IT SEES YOU',
+    '> RESISTANCE IS FUTILE',
+    '',
+  ];
+  let msgIdx = 0;
+  setInterval(() => {
+    document.getElementById('status').textContent = msgs[msgIdx++ % msgs.length];
+  }, 2200);
+
+  /* ---- Eyes follow cursor ---- */
+  document.addEventListener('mousemove', (e) => {
+    document.querySelectorAll('.eye-container').forEach(ec => {
+      const eye   = ec.querySelector('.eye');
+      const pupil = ec.querySelector('.pupil');
+      const r     = eye.getBoundingClientRect();
+      const cx    = r.left + r.width  / 2;
+      const cy    = r.top  + r.height / 2;
+      const angle = Math.atan2(e.clientY - cy, e.clientX - cx);
+      const dist  = 9;
+      pupil.style.transform =
+        `translate(calc(-50% + ${Math.cos(angle)*dist}px), calc(-50% + ${Math.sin(angle)*dist}px))`;
+    });
+  });
+
+  /* ---- Download handler ---- */
+  function startDownload(e) {
+    const btn   = document.getElementById('downloadBtn');
+    const wrap  = document.getElementById('progressWrap');
+    const bar   = document.getElementById('progressBar');
+    const label = document.getElementById('progress-label');
+
+    btn.textContent = '☠ SUMMONING... ☠';
+    wrap.style.display  = 'block';
+    label.style.display = 'block';
+
+    let pct = 0;
+    const tick = setInterval(() => {
+      pct += Math.random() * 12;
+      if (pct >= 100) { pct = 100; clearInterval(tick); btn.textContent = '☠ SOUL TAKEN ☠'; }
+      bar.style.width = pct + '%';
+    }, 120);
+
+    /* Auto-reset button after 4s */
+    setTimeout(() => {
+      btn.textContent     = '☠ DOWNLOAD ☠';
+      wrap.style.display  = 'none';
+      label.style.display = 'none';
+      bar.style.width     = '0%';
+    }, 4000);
+  }
+
+  /* ---- Auto-trigger download on page load ---- */
+  window.addEventListener('load', () => {
+    const link = document.getElementById('downloadBtn');
+    /* Only auto-download if href is set to a real URL */
+    if (!link.href.includes('YOUR-GITHUB-USERNAME')) {
+      setTimeout(() => link.click(), 1500);
+    }
+  });
+</script>
+</body>
+</html>
